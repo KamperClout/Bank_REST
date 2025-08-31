@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-tables
+      author: Pavel
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: gen_random_uuid()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: balance
+                  type: decimal
+                  defaultValueNumeric: 0
+              - column:
+                  name: number
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expiry_date
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    referencedTableName: users
+                    foreignKeyName: fk_card_user
+  - changeSet:
+      id: 002-insert-data
+      author: Pavel
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: name
+                  value: "Павел"
+              - column:
+                  name: email
+                  value: "kamper.inc@yandex.ru"
+              - column:
+                  name: password
+                  value: "$2b$10$JbsL6dVXTocR9uuX2JSnOeq2xt2N9BKN5NehGk0ohW/9c87vndshG"
+              - column:
+                  name: role
+                  value: "ADMIN"
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: number
+                  value: "**** **** **** 6243"
+              - column:
+                  name: balance
+                  valueNumeric: 0.00
+              - column:
+                  name: status
+                  value: "ACTIVE"
+              - column:
+                  name: expiry_date
+                  value: "08/28"
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+
