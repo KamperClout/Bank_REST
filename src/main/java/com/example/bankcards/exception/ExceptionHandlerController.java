@@ -3,6 +3,7 @@ package com.example.bankcards.exception;
 import com.example.bankcards.exception.cardException.CardNotFoundException;
 import com.example.bankcards.exception.cardException.CardTransferException;
 import com.example.bankcards.exception.cardException.StatusConflictException;
+import com.example.bankcards.exception.userException.InvalidPasswordException;
 import com.example.bankcards.exception.userException.UserExistsException;
 import com.example.bankcards.exception.userException.UserNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -48,6 +49,12 @@ public class ExceptionHandlerController {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleCardTransferException(CardTransferException e) {
         return new ApiError("TRANSFER_CONFLICT", "Please check transfer status!", e.getMessage(),
+                LocalDateTime.now());
+    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiError handleInvalidPassworfException(InvalidPasswordException e) {
+        return new ApiError("INVALID_PASSWORD", "Please try again your credentials!", e.getMessage(),
                 LocalDateTime.now());
     }
 
